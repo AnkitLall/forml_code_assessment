@@ -4,24 +4,29 @@ import time
 import random 
 from flask_socketio import SocketIO, emit
 
-
 app = Flask(__name__)
 CORS(app) 
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+cache = {}
 
 @app.route('/api/crack_safe', methods=["POST"])
 def countDigits():
     
     req = request.get_json()
-    print(req)
-    print(req["actual_combination"])
-    attempts, time_taken = crack_safe(req["actual_combination"])
-    result = {
-        "attempts": attempts, "time_taken":time_taken
-    }
-    print(result)
-    return jsonify(result)
+    combination = req["actual_combination"]
+
+    if combination in cache:
+        print("cached value")
+        return jsonify(cache[combination])
+    else:
+        print("No cached value")
+        attempts, time_taken = crack_safe(combination)
+        result = {
+            "attempts": attempts, "time_taken":time_taken
+        }
+        cache[combination] = result
+        return jsonify(result)
 
 def count_correct_digits(guess: str, actual: str) -> int: 
     return sum(1 for g, a in zip(guess, actual) if g == a) 
