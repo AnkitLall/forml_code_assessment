@@ -7,7 +7,7 @@ const socket = io('http://localhost:8080');
 
 function App() {
   const [combination, setCombination] = useState("");
-  const [attempts, setAttempts] = useState(null);
+  const [attempts, setAttempts] = useState(0);
   const [timeTaken, setTimeTaken] = useState(null);
   const [error, setError] = useState(null);
 
@@ -23,7 +23,7 @@ function App() {
 
   const handleInputChange = (e) => {
     setCombination(e.target.value);
-    setAttempts(null);
+    setAttempts(0);
     setTimeTaken(null);
     setError(null);
   };
