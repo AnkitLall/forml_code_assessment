@@ -2,9 +2,13 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import time 
 import random 
+from flask_socketio import SocketIO, emit
+
 
 app = Flask(__name__)
 CORS(app) 
+socketio = SocketIO(app, cors_allowed_origins="*")
+
 
 @app.route('/api/crack_safe', methods=["POST"])
 def countDigits():

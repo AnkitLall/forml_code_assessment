@@ -34,7 +34,7 @@ function App() {
 
   const fetchPostAPI = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/crack_safe', {actual_combination: '1234567890'});
+      const response = await axios.post('http://localhost:8080/api/crack_safe', {actual_combination: combination});
       console.log(response);
       setAttempts(response.data.attempts);
       setTimeTaken(response.data.time_taken);
