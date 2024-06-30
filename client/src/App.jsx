@@ -1,11 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import io from 'socket.io-client';
 import axios from 'axios'
+
+const socket = io('http://localhost:8080');
+
 
 function App() {
   const [combination, setCombination] = useState("");
   const [attempts, setAttempts] = useState(null);
   const [timeTaken, setTimeTaken] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    socket.on('attempt_update', (data) => {
+      setAttempts(data.attempts);
+    });
+
+    return () => {
+      socket.off('attempt_update');
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     setCombination(e.target.value);
@@ -79,7 +93,7 @@ function App() {
         {timeTaken !== null ? (
           <div className="mt-4">
             <p className="text-green-500 font-bold">Number of attempts: {attempts}</p>
-            <p className="text-green-500 font-bold">Time taken: {timeTaken.toFixed(2)} seconds</p>
+            <p className="text-green-500 font-bold">Time taken: {timeTaken.toFixed(10)} seconds</p>
           </div>
         ) : (
           <div className="mt-4">

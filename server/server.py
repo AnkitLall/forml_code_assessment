@@ -52,6 +52,7 @@ def crack_safe(actual_combination: str):
             if current_guess[i] == actual_combination[i]: 
                 correct_positions[i] = True 
         current_guess = generate_next_guess(current_guess, correct_positions, digit_pool) 
+        socketio.emit('attempt_update', {'attempts': attempts})
 
     end = time.time() 
     time_taken = end - start 
@@ -60,5 +61,5 @@ def crack_safe(actual_combination: str):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    socketio.run(app, debug=True, port=8080)
 
