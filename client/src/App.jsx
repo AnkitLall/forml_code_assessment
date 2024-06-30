@@ -14,6 +14,13 @@ function App() {
     setError(null);
   };
 
+  const handleClear = () => {
+    setCombination('');
+    setError(null);
+    setAttempts(0);
+    setTimeTaken(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -37,15 +44,10 @@ function App() {
   }
 
   return (
-    <div>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
-          Crack the Safe
-        </h1>
-        <form 
-        onSubmit={handleSubmit} 
-        className="space-y-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 bg-cover bg-center p-4" style={{ backgroundImage: 'url(/vault.jpg)' }}>
+      <div className="bg-white bg-opacity-80 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">Crack the Safe</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Enter 10-digit combination:
@@ -57,28 +59,36 @@ function App() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-          >
-            Crack Safe
-          </button>
+          <div className="flex space-x-4">
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            >
+              Crack Safe
+            </button>
+            <button
+              type="button"
+              onClick={handleClear}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            >
+              Clear
+            </button>
+          </div>
         </form>
         {error && <p className="text-red-500 text-xs italic mt-4">{error}</p>}
-        {attempts !== null && timeTaken !== null && (
+        {timeTaken !== null ? (
           <div className="mt-4">
-            <p className="text-green-500 font-bold">
-              Number of attempts: {attempts}
-            </p>
-            <p className="text-green-500 font-bold">
-              Time taken: {timeTaken.toFixed(2)} seconds
-            </p>
+            <p className="text-green-500 font-bold">Number of attempts: {attempts}</p>
+            <p className="text-green-500 font-bold">Time taken: {timeTaken.toFixed(2)} seconds</p>
+          </div>
+        ) : (
+          <div className="mt-4">
+            <p className="text-gray-700 font-bold">Number of attempts so far: {attempts}</p>
           </div>
         )}
       </div>
     </div>
-    </div>
-  )
+  );
 }
 
 export default App

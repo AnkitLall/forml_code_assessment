@@ -4,11 +4,10 @@ import time
 import random 
 
 app = Flask(__name__)
-# CORS(app, resources={r"/api/*": {"origins": "*"}})
 CORS(app) 
 
 @app.route('/api/crack_safe', methods=["POST"])
-def membersPost():
+def countDigits():
     
     req = request.get_json()
     print(req)
@@ -44,7 +43,6 @@ def crack_safe(actual_combination: str):
 
     while current_guess != actual_combination: 
         attempts += 1 
-        # correct_count = count_correct_digits(current_guess, actual_combination) 
 
         for i in range(10): 
             if current_guess[i] == actual_combination[i]: 
